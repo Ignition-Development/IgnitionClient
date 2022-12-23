@@ -3,6 +3,7 @@ require("../require/sql.php");
 require("../require/config.php");
 require("../require/addons.php");
 session_start();
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 
 if (!isset($_SESSION['loggedin'])) {
     header("location: /login");
@@ -28,12 +29,12 @@ if ($ownsServer->num_rows == 0) {
 */
 /* @var $panel_url */
 /* @var $panel_apikey */
-$delete_server = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $_GET["server"] . "/force");
+$delete_server = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $_GET["server"] . "/force");
 curl_setopt($delete_server, CURLOPT_CUSTOMREQUEST, "DELETE");
 $headers = array(
     'Accept: application/json',
     'Content-Type: application/json',
-    "Authorization: Bearer " . $_CONFIG["ptero_apikey"]
+    "Authorization: Bearer " . $getsettingsdb["ptero_apikey"]
 );
 curl_setopt($delete_server, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($delete_server, CURLOPT_RETURNTRANSFER, 1);

@@ -5,15 +5,15 @@ require("../require/page.php");
 $userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SESSION["user"]->id. "'")->fetch_object();
 if (isset($_POST['reset_creds'])) {
   
-    $username = file_get_contents($_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?l=20");
-    $password = file_get_contents($_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?l=20");
+    $username = file_get_contents($getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?l=20");
+    $password = file_get_contents($getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?l=20");
 
     $panel_id = $userdb->panel_id;
 
-    $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/users/$panel_id");
+    $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/users/$panel_id");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization: Bearer ' . $_CONFIG["ptero_apikey"],
+        'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"],
         'Content-Type: application/json',
         'Accept: application/json'
     ));
@@ -22,7 +22,7 @@ if (isset($_POST['reset_creds'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
         'username' => $username,
         'first_name' =>  $_SESSION["user"]->username,
-        'last_name' => $_CONFIG["name"],
+        'last_name' => $getsettingsdb["name"],
         'email' => $_SESSION["user"]->email,
         'password' => $password,
         'language' => 'en'
@@ -102,7 +102,7 @@ for ($i = 1; $i <= strlen($password); $i++) {
                     <h3>Username: <code><?= $userdb->panel_username ?></code></h3>
                     <h3>Password: <code id="passwordView"><?= $stars ?></code><a href="#" onclick="viewPassword()" id="viewpassbutton" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a></h3>
                     <br/><br/>
-                    <a href="<?= $_CONFIG["ptero_url"] ?>" target="_blank"><button class="btn btn-primary" type="button"><i class="fas fa-external-link-alt"></i> Open game panel</button></a>
+                    <a href="<?= $getsettingsdb["ptero_url"] ?>" target="_blank"><button class="btn btn-primary" type="button"><i class="fas fa-external-link-alt"></i> Open game panel</button></a>
                 </div>
             </div>
           </div>
@@ -118,16 +118,16 @@ for ($i = 1; $i <= strlen($password); $i++) {
           <div class="col-lg-6">
             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
               <li class="nav-item">
-                <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
               </li>
             </ul>
           </div>

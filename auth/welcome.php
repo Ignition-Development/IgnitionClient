@@ -1,5 +1,8 @@
 <?php
 require("../require/config.php");
+require("../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
+
 ?>
 <!--
 =========================================================
@@ -19,7 +22,7 @@ require("../require/config.php");
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title><?= $_CONFIG["name"] ?> - Welcome</title>
+  <title><?= $getsettingsdb["name"] ?> - Welcome</title>
   <!-- Favicon -->
   <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -36,7 +39,7 @@ require("../require/config.php");
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="<?= $_CONFIG["logo_white"] ?>">
+        <img src="<?= $getsettingsdb["logo_white"] ?>">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,7 +49,7 @@ require("../require/config.php");
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="/">
-                <img src="<?= $_CONFIG["logo_white"] ?>">
+                <img src="<?= $getsettingsdb["logo_white"] ?>">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -59,12 +62,12 @@ require("../require/config.php");
         </div>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="<?= $_CONFIG["website"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["website"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Website</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Status page</span>
             </a>
           </li>
@@ -72,7 +75,7 @@ require("../require/config.php");
         <hr class="d-lg-none" />
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="<?= $_CONFIG["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+            <a class="nav-link nav-link-icon" href="<?= $getsettingsdb["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
               <i class="fab fa-discord"></i>
               <span class="nav-link-inner--text d-lg-none">Discord server</span>
             </a>
@@ -108,7 +111,7 @@ require("../require/config.php");
           <div class="card card-profile bg-secondary mt-5">
             <div class="card-body pt-5 px-5">
               <div class="text-center mb-4">
-                <h3 style="color: black;">Welcome to <?= $_CONFIG["name"] ?>!</h3>
+                <h3 style="color: black;">Welcome to <?= $getsettingsdb["name"] ?>!</h3>
                 <span style="color: black;">This dashboard will allow you to create, manage & delete your servers. It will also allow you to earn coins, and to buy more resources.</span>
                 <br/><br/>
                   <a href="/" class="btn btn-primary" style="width: 100%;">Continue</a>

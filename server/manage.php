@@ -10,11 +10,11 @@ if (!is_numeric($serverid)) {
 }
 // get current server info
 
-$ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/$serverid");
+$ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/$serverid");
 $headers = array(
     'Content-Type: application/json',
     'Accept: application/json',
-    'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+    'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
 );
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -41,12 +41,12 @@ $usedports = 0;
 $useddatabases = 0;
 $servers = mysqli_query($cpconn, "SELECT * FROM servers WHERE uid = '$user->id'");
 foreach($servers as $server) {
-    $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $server['pid']);
+    $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $server['pid']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $headers = array(
         'Content-Type: application/json',
         'Accept: application/json',
-        'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+        'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
     );
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     $result = curl_exec($ch);
@@ -193,11 +193,11 @@ if (isset($_POST['submit'])) {
 //
         //}
         // change server resources
-        $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $serverid . "/build");
+        $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $serverid . "/build");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Accept: application/json',
             'Content-Type: application/json',
-            'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+            'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
         ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
@@ -322,16 +322,16 @@ if (isset($_POST['submit'])) {
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                        <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                        <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                        <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                        <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
                     </li>
                 </ul>
             </div>

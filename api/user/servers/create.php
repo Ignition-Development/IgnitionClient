@@ -1,6 +1,7 @@
 <?php
 require("../../../require/sql.php");
 require("../../../require/addons.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 session_start();
 $queue = 0;
 if (!isset($_SESSION['loggedin'])) {
@@ -44,10 +45,10 @@ if ($servers_in_queue->num_rows >= 2) {
 }
 foreach($servers as $serv) {
     $ptid = $serv["pid"];
-    $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $ptid);
+    $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $ptid);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+        "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
         "Content-Type: application/json",
         "Accept: application/json"
     ));

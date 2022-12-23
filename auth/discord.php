@@ -3,7 +3,9 @@
 // This script is 99.999% coming from J0SH#8445!
 // Big shoutout and thx!
 // ==============================================
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require("../require/sql.php");
 require("../require/config.php");
@@ -12,7 +14,7 @@ require("../require/addons.php");
 $authorizeURL = 'https://discord.com/api/oauth2/authorize';
 $tokenURL = 'https://discord.com/api/oauth2/token';
 $apiURLBase = 'https://discord.com/api/users/@me';
-
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 if (!$cpconn->ping()) {
     $_SESSION['error'] = "There was an error communicating with MYSQL";
     header("location: /auth/login");
@@ -29,8 +31,8 @@ if (isset($_SESSION['loggedin'])) {
 if (isset($_GET['login'])) {
     try {
         $requestarray = array(
-            "client_id" => $_CONFIG["dc_clientid"],
-            "redirect_uri" => $_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/auth/discord",
+            "client_id" => $getsettingsdb["dc_clientid"],
+            "redirect_uri" => $getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/auth/discord",
             "response_type" => "code",
             "scope" => "identify guilds email"
         );
@@ -49,9 +51,9 @@ if (isset($_GET['code'])) {
         // Exchange the auth code for a token
         $token = apiRequest($tokenURL, array(
             "grant_type" => "authorization_code",
-            'client_id' => $_CONFIG["dc_clientid"],
-            'client_secret' => $_CONFIG["dc_clientsecret"],
-            'redirect_uri' => $_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/auth/discord",
+            'client_id' => $getsettingsdb["dc_clientid"],
+            'client_secret' => $getsettingsdb["dc_clientsecret"],
+            'redirect_uri' => $getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/auth/discord",
             'code' => $_GET['code']
         ));
         $_SESSION['access_token'] = $token->access_token;
@@ -94,7 +96,7 @@ if (isset($_SESSION['access_token'])) {
     $inDiscord = false;
     foreach ($guilds as $guild) {
         if (!empty($guild->id)) {
-            if ($guild->id == $_CONFIG["dc_guildid"]) {
+            if ($guild->id == $getsettingsdb["dc_guildid"]) {
                 $inDiscord = true;
             }
         }
@@ -162,20 +164,20 @@ if (isset($_SESSION['access_token'])) {
     */
     $usersignupcheck = mysqli_query($cpconn, "SELECT * FROM users WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $user->id) . "'");
     if ($usersignupcheck->num_rows == 0) {
-        $panel_username = file_get_contents($_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword");
-        $panel_password = file_get_contents($_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword");
-        $referral = file_get_contents($_CONFIG["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?length=5");
+        $panel_username = file_get_contents($getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword");
+        $panel_password = file_get_contents($getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword");
+        $referral = file_get_contents($getsettingsdb["proto"] . $_SERVER['SERVER_NAME'] . "/api/randompassword?length=5");
 
-        $panelapi = curl_init($_CONFIG["ptero_url"] . "/api/application/users");
+        $panelapi = curl_init($getsettingsdb["ptero_url"] . "/api/application/users");
         $headers = array(
             'Accept: application/json',
             'Content-Type: application/json',
-            'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+            'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
         );
         $postfields = array(
             'username' => $panel_username,
             'first_name' => $user->username,
-            'last_name' => $_CONFIG["name"],
+            'last_name' => $getsettingsdb["name"],
             'email' => $user->email,
             'password' => $panel_password
         );
@@ -192,10 +194,10 @@ if (isset($_SESSION['access_token'])) {
             $error = $result['errors'][0]['detail'];
             if ($error == "The email has already been taken.") {
                 // retrieve user info and attach current user to client panel
-                $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/users?filter%5Bemail%5D=$user->email");
+                $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/users?filter%5Bemail%5D=$user->email");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Authorization: Bearer ' . $_CONFIG["ptero_apikey"],
+                    'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"],
                     'Content-Type: application/json',
                     'Accept: application/json'
                 ));
@@ -209,10 +211,10 @@ if (isset($_SESSION['access_token'])) {
                 }
                 $panel_id = $result13['data'][0]['attributes']['id'];
                 // update user information
-                $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/users/$panel_id");
+                $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/users/$panel_id");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Authorization: Bearer ' . $_CONFIG["ptero_apikey"],
+                    'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"],
                     'Content-Type: application/json',
                     'Accept: application/json'
                 ));
@@ -221,7 +223,7 @@ if (isset($_SESSION['access_token'])) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array(
                     'username' => $panel_username,
                     'first_name' => $user->username,
-                    'last_name' => $_CONFIG["name"],
+                    'last_name' => $getsettingsdb["name"],
                     'email' => $user->email,
                     'password' => $panel_password,
                     'language' => 'en'
@@ -245,8 +247,16 @@ if (isset($_SESSION['access_token'])) {
 
         $time = time();
         $registered = date("d-m-y", time());
-        if (!mysqli_query($cpconn, "INSERT INTO users (panel_id, discord_id, discord_name, discord_email, avatar, panel_username, panel_password, register_ip, lastlogin_ip, created_at, last_login, locale, registered) VALUES ($panel_id, $user->id, '" . mysqli_real_escape_string($cpconn, $username) . "', '" . mysqli_real_escape_string($cpconn, $user->email) . "', '$avatar', '$panel_username', '$panel_password', '$ipaddr', '$ipaddr', '$time', '$time', 'en', '$registered')")) {
-            $_SESSION['error'] = "There was an error while creating your user account. " . mysqli_error($cpconn);
+        $defram = $getsettingsdb['def_memory'];
+        $defdisk = $getsettingsdb['def_disk_space'];
+        $defport = $getsettingsdb['def_ports'];
+        $defdatabase = $getsettingsdb['def_databases'];
+        $defcpu = $getsettingsdb['def_cpu'];
+        $defsvlimit = $getsettingsdb['def_server_limit'];
+       
+       
+        if (!mysqli_query($cpconn, "INSERT INTO users (panel_id, discord_id, discord_name, discord_email, avatar, memory, disk_space, cpu, server_limit, panel_username, panel_password, register_ip, lastlogin_ip, created_at, last_login, locale, registered) VALUES ($panel_id, $user->id, '" . mysqli_real_escape_string($cpconn, $username) . "', '" . mysqli_real_escape_string($cpconn, $user->email) . "', '$avatar', '$defram', '$defdisk', '$defcpu', '$defsvlimit', '$panel_username', '$panel_password', '$ipaddr', '$ipaddr', '$time', '$time', 'en', '$registered')")) {
+            $_SESSION['error'] =  mysqli_error($cpconn);
             header("location: /auth/login");
             die();
         }

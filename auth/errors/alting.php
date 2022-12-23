@@ -4,6 +4,7 @@ require("../../require/config.php");
 require("../../require/sql.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 error_reporting(E_ALL);
 ?>
 <!--
@@ -24,7 +25,7 @@ error_reporting(E_ALL);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title><?= $_CONFIG["name"] ?> - Alting is not allowed</title>
+  <title><?= $getsettingsdb["name"] ?> - Alting is not allowed</title>
   <!-- Favicon -->
   <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -41,7 +42,7 @@ error_reporting(E_ALL);
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="<?= $_CONFIG["logo_white"] ?>">
+        <img src="<?= $getsettingsdb["logo_white"] ?>">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -51,7 +52,7 @@ error_reporting(E_ALL);
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="/">
-                <img src="<?= $_CONFIG["logo_white"] ?>">
+                <img src="<?= $getsettingsdb["logo_white"] ?>">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -64,12 +65,12 @@ error_reporting(E_ALL);
         </div>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="<?= $_CONFIG["website"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["website"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Website</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Status page</span>
             </a>
           </li>
@@ -77,7 +78,7 @@ error_reporting(E_ALL);
         <hr class="d-lg-none" />
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="<?= $_CONFIG["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+            <a class="nav-link nav-link-icon" href="<?= $getsettingsdb["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
               <i class="fab fa-discord"></i>
               <span class="nav-link-inner--text d-lg-none">Discord server</span>
             </a>
@@ -133,7 +134,7 @@ error_reporting(E_ALL);
               </div>
               <form role="form">
                 <div class="text-center">
-                  <a href="<?= $_CONFIG["discordserver"] ?>" target="_blank"><button type="button" class="btn btn-primary mt-2">Join our discord server</button></a>
+                  <a href="<?= $getsettingsdb["discordserver"] ?>" target="_blank"><button type="button" class="btn btn-primary mt-2">Join our discord server</button></a>
                   <a href="/auth/logout"><button type="button" class="btn btn-danger mt-2">Logout</button></a>
                 </div>
               </form>

@@ -2,6 +2,7 @@
 require("../require/config.php");
 require("../require/sql.php");
 require("../require/addons.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 session_start();
 
 if (!isset($_SESSION['loggedin'])) {
@@ -30,7 +31,7 @@ $serverInformation = $ownsServer->fetch_object();
 if ($serverInformation->type == 2) {
     $userdb = mysqli_query($cpconn, "SELECT * FROM users WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $user->id) . "'")->fetch_object();
     $current_qc = $userdb->coins;
-    $new_qc = $_CONFIG["vipqueue"] + $current_qc;
+    $new_qc = $getsettingsdb["vipqueue"] + $current_qc;
     mysqli_query($cpconn, "UPDATE users SET coins = '$new_qc' WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $user->id) . "'");
 }
 if (mysqli_query($cpconn, "DELETE FROM servers_queue WHERE id = '" . mysqli_real_escape_string($cpconn, $_GET["server"]) . "'")) {

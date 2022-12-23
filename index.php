@@ -17,10 +17,10 @@ $usedDatabase = 0;
 $uservers = array();
 foreach($servers as $serv) {
     $ptid = $serv["pid"];
-    $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $ptid);
+    $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $ptid);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+        "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
         "Content-Type: application/json",
         "Accept: Application/vnd.pterodactyl.v1+json"
     ));
@@ -57,7 +57,7 @@ foreach($servers_in_queue as $server) {
 ?>
     <!-- Header -->
     <!-- Header -->
-    <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(<?= $_CONFIG["home_background"] ?>); background-size: cover; background-position: center top;">
+    <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(<?= $getsettingsdb["home_background"] ?>); background-size: cover; background-position: center top;">
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
@@ -65,19 +65,19 @@ foreach($servers_in_queue as $server) {
         <div class="row">
           <div class="col">
             <h1 class="display-2 text-white">Hello <?= $userdb["discord_name"] ?></h1>
-            <p class="text-white mt-0 mb-5">Welcome to <?= $_CONFIG["name"] ?>! Get your server below!</p>
+            <p class="text-white mt-0 mb-5">Welcome to <?= $getsettingsdb["name"] ?>! Get your server below!</p>
             <a href="create" class="btn btn-neutral">Create a new server</a>
           </div>
           <?php
-          if ($_CONFIG["homeNews_show"]) {
+          if ($getsettingsdb["homeNews_show"]) {
             ?>
             <div class="col">
               <div class="card bg-gradient-default">
-                  <div class="card-body" style="background-image: url('<?= $_CONFIG["homeNews_bgimage"] ?>'); background-repeat: no-repeat; background-size: cover; background-position: center center; background-color: <?= $_CONFIG["homeNews_bgcolor"] ?>;">
-                      <h3 class="card-title text-white"><?= $_CONFIG["homeNews_title"] ?></h3>
+                  <div class="card-body" style="background-image: url('<?= $getsettingsdb["homeNews_bgimage"] ?>'); background-repeat: no-repeat; background-size: cover; background-position: center center; background-color: <?= $getsettingsdb["homeNews_bgcolor"] ?>;">
+                      <h3 class="card-title text-white"><?= $getsettingsdb["homeNews_title"] ?></h3>
                       <blockquote class="blockquote text-white mb-0">
-                          <p><?= $_CONFIG["homeNews_content"] ?></p>
-                          <a href="<?= $_CONFIG["homeNews_buttonLink"]; ?>" class="btn btn-neutral btn-sm"><?= $_CONFIG["homeNews_buttonText"] ?></a>
+                          <p><?= $getsettingsdb["homeNews_content"] ?></p>
+                          <a href="<?= $getsettingsdb["homeNews_buttonLink"]; ?>" class="btn btn-neutral btn-sm"><?= $getsettingsdb["homeNews_buttonText"] ?></a>
                       </blockquote>
                   </div>
               </div>
@@ -92,7 +92,7 @@ foreach($servers_in_queue as $server) {
     <div class="container-fluid mt--6">
           <div class="row">
             <div class="col-lg-3">
-              <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+              <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                 <!-- Card body -->
                 <div class="card-body">
                   <div class="row">
@@ -123,7 +123,7 @@ foreach($servers_in_queue as $server) {
               </div>
             </div>
             <div class="col-lg-3">
-              <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+              <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                 <!-- Card body -->
                 <div class="card-body">
                   <div class="row">
@@ -154,7 +154,7 @@ foreach($servers_in_queue as $server) {
               </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -185,7 +185,7 @@ foreach($servers_in_queue as $server) {
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -222,7 +222,7 @@ foreach($servers_in_queue as $server) {
         -->
         <div class="row">
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -241,7 +241,7 @@ foreach($servers_in_queue as $server) {
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -272,7 +272,7 @@ foreach($servers_in_queue as $server) {
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -303,7 +303,7 @@ foreach($servers_in_queue as $server) {
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card bg-gradient-<?= $_CONFIG["home_color"] ?> border-0">
+                <div class="card bg-gradient-<?= $getsettingsdb["home_color"] ?> border-0">
                     <!-- Card body -->
                     <div class="card-body">
                         <div class="row">
@@ -468,7 +468,7 @@ foreach($servers_in_queue as $server) {
                                             echo '<span class="badge badge-dot mr-4"><i class="bg-warning"></i><span class="status">Suspended</span></span>';
                                         } else {
                                             echo '<span class="badge badge-dot mr-4"><i class="bg-success"></i><span class="status">Installed</span></span>';
-                                            $hibernating = file_get_contents($_CONFIG["proto"] . $_SERVER["SERVER_NAME"] . "/api/user/hibwhitelist?serverid=" . $server['uuid']);
+                                            $hibernating = file_get_contents($getsettingsdb["proto"] . $_SERVER["SERVER_NAME"] . "/api/user/hibwhitelist?serverid=" . $server['uuid']);
                                             if ($egg["hibernation"] == 1) {
                                                 if ($hibernating != 1) {
                                                     echo '<img src="https://i.imgur.com/K6S8u5h.png" width="27" /> Hibernation enabled <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-placement="top" data-content="The hibernation system is really simple, when no players are online, your server will unload chunks and plugins to reduce CPU usage. You can remove this limitation by purchasing a bypass, to use plugins like Dynmap or other plugins that require to run when no players are online.">?</button>';
@@ -495,7 +495,7 @@ foreach($servers_in_queue as $server) {
                                         <?= $server["limits"]["disk"] ?>MB
                                     </td>
                                     <td>
-                                        <a href="<?= $_CONFIG["ptero_url"] . "/server/" . $server["identifier"] ?>" class="btn btn-primary btn-sm" data-trigger="hover" data-container="body" data-toggle="popover" data-color="default" data-placement="left" data-content="Open in the game panel"><i class="fas fa-external-link-square-alt"></i></a>
+                                        <a href="<?= $getsettingsdb["ptero_url"] . "/server/" . $server["identifier"] ?>" class="btn btn-primary btn-sm" data-trigger="hover" data-container="body" data-toggle="popover" data-color="default" data-placement="left" data-content="Open in the game panel"><i class="fas fa-external-link-square-alt"></i></a>
                                         <a href="/server/manage?id=<?= $server["id"] ?>" class="btn btn-primary btn-sm">Edit</a>
                                         <a href="/server/delete?server=<?= $server["id"] ?>"><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</button></a>
                                     </td>
@@ -520,16 +520,16 @@ foreach($servers_in_queue as $server) {
           <div class="col-lg-6">
             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
               <li class="nav-item">
-                <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
               </li>
             </ul>
           </div>

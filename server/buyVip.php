@@ -3,6 +3,7 @@ require("../require/config.php");
 require("../require/sql.php");
 require("../require/addons.php");
 session_start();
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 if (!isset($_SESSION['loggedin'])) {
     header("location: /login");
     die();
@@ -17,10 +18,10 @@ if (!is_numeric($_GET["server"])) {
 $user = $_SESSION['user'];
 $userdb = mysqli_query($cpconn, "SELECT * FROM users WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $user->id) . "'")->fetch_object();
 $curcoins = $userdb->coins;
-if ($curcoins < $_CONFIG["vipqueue"]) {
-    $cneeded = $_CONFIG["vipqueue"] - $userdb->coins;
+if ($curcoins < $getsettingsdb["vipqueue"]) {
+    $cneeded = $getsettingsdb["vipqueue"] - $userdb->coins;
     if ($userdb->coins == 0) {
-        $cneeded = $_CONFIG["vipqueue"];
+        $cneeded = $getsettingsdb["vipqueue"];
     }
     $_SESSION['error'] = "You do not have enough coins to buy the VIP queue. You need <strong>$cneeded</strong> more coins!";
     header("location: /");
@@ -38,7 +39,7 @@ if ($server->type > 1) {
 
 // Remove the coins
 
-$newcoins = $curcoins - $_CONFIG["vipqueue"];
+$newcoins = $curcoins - $getsettingsdb["vipqueue"];
 
 mysqli_query($cpconn, "START TRANSACTION");
 if (!mysqli_query($cpconn, "UPDATE users SET coins = '$newcoins' WHERE discord_id = '$user->id'")) {

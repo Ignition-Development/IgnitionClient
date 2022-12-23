@@ -2,10 +2,11 @@
 if (!empty($_SERVER["SERVER_NAME"])) {
     die("What are you doing here");
 }
-echo "====== ShadowsDash queue ======\n\n";
+echo "====== IgnitionDash queue ======\n\n";
 echo "[INFO/loader] Loading files...\n";
 require(__DIR__ . "/../require/config.php");
 require(__DIR__ . "/../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 $timeAtStart = time();
 $i = 0;
 $nodesFull = 0;
@@ -66,11 +67,11 @@ foreach($queue as $server) {
     }
     $egg = $eggd->fetch_object();
     // get egg information
-    $egginfocurl = curl_init($_CONFIG["ptero_url"] . "/api/application/nests/" . $egg->nest . "/eggs/" . $egg->egg);
+    $egginfocurl = curl_init($getsettingsdb["ptero_url"] . "/api/application/nests/" . $egg->nest . "/eggs/" . $egg->egg);
     $httpheader = array(
         'Accept: application/json',
         'Content-Type: application/json',
-        'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+        'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
     );
     curl_setopt($egginfocurl, CURLOPT_HTTPHEADER, $httpheader);
     curl_setopt($egginfocurl, CURLOPT_RETURNTRANSFER, 1);
@@ -81,7 +82,7 @@ foreach($queue as $server) {
     $startup = $response['attributes']['startup'];
     $ports = $server['xtra_ports'] + 1;
     // create server
-    $panelcurl = curl_init($_CONFIG["ptero_url"] . "/api/application/servers");
+    $panelcurl = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers");
     $postfields = array(
         'name' => $server['name'],
         'user' => $server['puid'],
@@ -127,6 +128,9 @@ foreach($queue as $server) {
             // GO
             'GO_PACKAGE' => 'changeme',
             'EXECUTABLE' => 'changeme',
+            //lua
+            'LUA_FILE' => 'app.lua',
+            'LIT_PACKAGES' => '',
         ),
         'limits' => array(
             'memory' => $server['ram'],
@@ -137,7 +141,7 @@ foreach($queue as $server) {
         ),
         'feature_limits' => array(
             "databases" => $server['databases'],
-            "backups" => 0,
+            "backups" => 5,
             "allocations" => $ports
         ),
         "deploy" => array(
@@ -152,7 +156,7 @@ foreach($queue as $server) {
     curl_setopt($panelcurl, CURLOPT_HTTPHEADER, array(
         'Accept: application/json',
         'Content-Type: application/json',
-        'Authorization: Bearer ' . $_CONFIG["ptero_apikey"]
+        'Authorization: Bearer ' . $getsettingsdb["ptero_apikey"]
     ));
     $result = curl_exec($panelcurl);
     curl_close($panelcurl);

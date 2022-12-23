@@ -1,5 +1,7 @@
 <?php
 require("../../require/config.php");
+require("../../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 ?>
 <!--
 =========================================================

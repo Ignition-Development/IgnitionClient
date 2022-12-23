@@ -45,7 +45,7 @@ $referrals = mysqli_query($cpconn, "SELECT * FROM referral_claims WHERE code = '
             <div class="card-body">
                 <h1><center>Your referral code is <?= $referral ?></center></h1>
                 <br><br>
-                <h1><center>Copy the link: <code><?= $_CONFIG["proto"] . $_SERVER['HTTP_HOST'] ?>/r?ref=<?= $referral ?></code> </center></h1>
+                <h1><center>Copy the link: <code><?= $getsettingsdb["proto"] . $_SERVER['HTTP_HOST'] ?>/r?ref=<?= $referral ?></code> </center></h1>
             </div>
           </div>
           <div class="card">
@@ -95,16 +95,16 @@ $referrals = mysqli_query($cpconn, "SELECT * FROM referral_claims WHERE code = '
           <div class="col-lg-6">
             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
               <li class="nav-item">
-                <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
               </li>
               <li class="nav-item">
-                <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
               </li>
             </ul>
           </div>

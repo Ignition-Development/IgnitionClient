@@ -1,6 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require("../require/config.php");
 session_start();
+require("../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 ?>
 <!--
 =========================================================
@@ -18,7 +23,7 @@ session_start();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title><?= $_CONFIG["name"] ?> - Login</title>
+  <title><?= $getsettingsdb["name"] ?> - Login</title>
   <!-- Favicon -->
   <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -27,7 +32,14 @@ session_start();
   <link rel="stylesheet" href="/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <!-- Argon CSS -->
-  <link rel="stylesheet" href="/assets/css/argon.css?v=1.2.0" type="text/css">
+
+  <link rel="stylesheet" href="/assets/css/argon.css?v=1.2.0" type="text/css">  
+  <meta name="keywords" content="<?= $getsettingsdb['seo_keywords'] ?>">
+  <meta name="theme-color" content="<?= $getsettingsdb['seo_color'] ?>">
+  <meta name="description" content="<?= $getsettingsdb['seo_description'] ?>">
+  <meta name="og:description" content="<?= $getsettingsdb['seo_description'] ?>">
+  <meta property="og:title" content="<?= $getsettingsdb['seo_name'] ?>">
+  <meta property="og:image" content="<?= $getsettingsdb['seo_image'] ?>">
 </head>
 
 <body class="bg-default">
@@ -35,7 +47,7 @@ session_start();
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="<?= $_CONFIG["logo_white"] ?>">
+        <img src="<?= $getsettingsdb["logo_white"] ?>">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,7 +57,7 @@ session_start();
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="/">
-                <img src="<?= $_CONFIG["logo_white"] ?>">
+                <img src="<?= $getsettingsdb["logo_white"] ?>">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -58,12 +70,12 @@ session_start();
         </div>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="<?= $_CONFIG["website"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["website"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Website</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Status page</span>
             </a>
           </li>
@@ -71,7 +83,7 @@ session_start();
         <hr class="d-lg-none" />
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="<?= $_CONFIG["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+            <a class="nav-link nav-link-icon" href="<?= $getsettingsdb["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
               <i class="fab fa-discord"></i>
               <span class="nav-link-inner--text d-lg-none">Discord server</span>
             </a>
@@ -139,7 +151,7 @@ session_start();
                 ?>
                 </font></small>
                 <br/>
-                <small><font color="gray">By logging in, you agree to our <a href="<?= $_CONFIG["privacypolicy"] ?>">Privacy Policy</a> and our <a href="<?= $_CONFIG["termsofservice"] ?>">Terms Of Service</a>.</font></small>
+                <small><font color="gray">By logging in, you agree to our <a href="<?= $getsettingsdb["privacypolicy"] ?>">Privacy Policy</a> and our <a href="<?= $getsettingsdb["termsofservice"] ?>">Terms Of Service</a>.</font></small>
               </div>
             </div>
           </div>

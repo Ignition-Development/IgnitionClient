@@ -103,10 +103,10 @@ if (isset($_POST["hibernatebypass"])) {
         echo '<script>window.location.replace("/");</script>';
         die();
     }
-    $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $pid);
+    $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $pid);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+        "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
         "Content-Type: application/json",
         "Accept: Application/vnd.pterodactyl.v1+json"
     ));
@@ -350,10 +350,10 @@ if (isset($_POST["vipqueue"])) {
                         foreach ($servers as $server) {
                             // GET SERVER INFO
                             $location = mysqli_query($cpconn, "SELECT * FROM locations WHERE `locations`.`id`='" . $server["location"] . "'")->fetch_array();
-                            $ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $server["pid"]);
+                            $ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $server["pid"]);
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                                "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+                                "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
                                 "Content-Type: application/json",
                                 "Accept: Application/vnd.pterodactyl.v1+json"
                             ));
@@ -438,16 +438,16 @@ if (isset($_POST["vipqueue"])) {
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                        <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                        <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                        <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                        <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
                     </li>
                 </ul>
             </div>

@@ -1,9 +1,24 @@
 <?php
 require("../require/page.php");
+//require("function.php")
+//$userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SESSION["user"]->id. "'")->fetch_object();
+//$cpconn->query("INSERT INTO afk_data (discord_id, isafk) VALUES ('$user->id', '1')");
+//
+$userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $_SESSION["user"]->id) . "'")->fetch_array();
+$stconn = $cpconn->query("SELECT * FROM settings")->fetch_array();
 
-$userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SESSION["user"]->id. "'")->fetch_object();
+$usrcoins = $userdb['coins'];
+$usrafkmin = $userdb['minutes_idle'];
+
 ?>
+ <!--<script>
+            setTimeout(function() {
+                window.location.href=".php";
+            }, 60000);
+        </script> -->
+
 <!-- Header -->
+<meta http-equiv="refresh" content="62">
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -28,12 +43,16 @@ $userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SE
         <div class="col-lg-8 card-wrapper">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0"><img src="https://i.imgur.com/jv3Frir.png" width="30"> Select a way to earn coins</h3>
+                    <h3 class="mb-0"><img src="https://i.imgur.com/jv3Frir.png" width="30"> You are eraning coins now</h3>
                 </div>
                 <div class="card-body" style="text-align: center;">
-                    <p>Select a way to earn coins.</p>
-                    <a href="afk.php"><button type="button" class="btn btn-primary" style="margin-bottom: 10px; margin-right: 10px;"><img src="../assets/img/timer.png" width="64"><br/><br/>AFK</button></a>
-                    <!--<a href="reedem.php"><button type="button" class="btn btn-primary" style="margin-bottom: 10px; margin-right: 10px;"><img src="../assets/img/dash/coupon.png" width="64"><br/><br/>REEDEM</button></a>-->
+                    <!--<p> Every 60 seconds, you will get 1 coins</p>
+                    <p>You will gain 1 coin in <span id="timer"></span></p>-->
+                    <p>For every minute you idle here, you get one coin. With those coins that you earn, you can purchase things from the shop. </p>
+                    <p>You currently have <?php echo $usrcoins; ?> coin(s)!</p>
+                    <p>You have been idling for <?php echo $usrafkmin; ?> minute(s)!</p>
+                    <p>You will get more coins in <span id="timer"></span>!</p>
+                    
                 </div>
             </div>
         </div>
@@ -42,23 +61,21 @@ $userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SE
     <footer class="footer pt-0">
         <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6">
-                <div class="copyright text-center  text-lg-left  text-muted">
-                    &copy; 2022 <a href="https://xshadow.me" class="font-weight-bold ml-1" target="_blank">X_Shadow_#5962</a> - Theme by <a href="https://creativetim.com" target="_blank">Creative Tim</a>
-                </div>
+    
             </div>
             <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
-                        <a href="<?= $getsettingsdb["website"] ?>" class="nav-link" target="_blank"> Website</a>
+                        <a href="<?= $stconn["website"] ?>" class="nav-link" target="_blank"> Website</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
+                        <a href="<?= $stconn["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $getsettingsdb["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
+                        <a href="<?= $stconn["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= $getsettingsdb["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
+                        <a href="<?= $stconn["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
                     </li>
                 </ul>
             </div>
@@ -66,18 +83,28 @@ $userdb = mysqli_query($cpconn, "SELECT * FROM users where discord_id = '". $_SE
     </footer>
     </div>
     </div>
+    <?php echo '<script>';
+echo "setInterval(function () { $.ajax({ url: '../core/afk/functions/coins.php', success: function (data) { console.log(\"Earned A Coin!\"); } }); }, 60000)";
+echo '</script>';
+?>
+<script>
+    setInterval(function () {
+        $('#stats').load(location.href + " #stats>*", "")
+    }, 61000)
+
+</script>
     <script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/js-cookie/js.cookie.js"></script>
     <script src="/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
     <!-- Optional JS -->
+    <script src="/core/afk/functions/timer.js"></script>
+    </script>
     <script src="/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
     <script src="/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     <!-- Argon JS -->
     <script src="/assets/js/argon.js?v=1.2.0"></script>
-    <!-- Demo JS - remove this in your project -->
-    <script src="/assets/js/demo.min.js"></script>
 </div>
 
 </html>

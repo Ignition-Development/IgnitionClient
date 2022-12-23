@@ -1,10 +1,13 @@
 <?php
 include("../require/config.php");
 include("../require/addons.php");
+require("../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
+
 $_SESSION["in_queue"] = 1;
 $lastlogin = file_get_contents("queue.txt");
 $oper = time() - $lastlogin;
-$timeleft = $_CONFIG["loginCooldown"] - $oper;
+$timeleft = $getsettingsdb["loginCooldown"] - $oper;
 if ($timeleft <= 0) {
     $_SESSION["in_queue"] = 0;
     file_put_contents("queue.txt", time());
@@ -31,7 +34,7 @@ if ($timeleft <= 0) {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title><?= $_CONFIG["name"] ?> - In queue</title>
+  <title><?= $getsettingsdb["name"] ?> - In queue</title>
   <!-- Favicon -->
   <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -50,7 +53,7 @@ if ($timeleft <= 0) {
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="<?= $_CONFIG["logo_white"] ?>">
+        <img src="<?= $getsettingsdb["logo_white"] ?>">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -60,7 +63,7 @@ if ($timeleft <= 0) {
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="/">
-                <img src="<?= $_CONFIG["logo_white"] ?>">
+                <img src="<?= $getsettingsdb["logo_white"] ?>">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -73,12 +76,12 @@ if ($timeleft <= 0) {
         </div>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="<?= $_CONFIG["website"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["website"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Website</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Status page</span>
             </a>
           </li>
@@ -86,7 +89,7 @@ if ($timeleft <= 0) {
         <hr class="d-lg-none" />
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="<?= $_CONFIG["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+            <a class="nav-link nav-link-icon" href="<?= $getsettingsdb["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
               <i class="fab fa-discord"></i>
               <span class="nav-link-inner--text d-lg-none">Discord server</span>
             </a>

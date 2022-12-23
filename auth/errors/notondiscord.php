@@ -1,6 +1,8 @@
 <?php
 session_start();
 require("../../require/config.php");
+require("../../require/sql.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 session_destroy();
 ?>
 <!--
@@ -21,7 +23,7 @@ session_destroy();
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title><?= $_CONFIG["name"] ?> - Not on the Discord server</title>
+  <title><?= $getsettingsdb["name"] ?> - Not on the Discord server</title>
   <!-- Favicon -->
   <link rel="icon" href="/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
@@ -38,7 +40,7 @@ session_destroy();
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="<?= $_CONFIG["logo_white"] ?>">
+        <img src="<?= $getsettingsdb["logo_white"] ?>">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -48,7 +50,7 @@ session_destroy();
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="/">
-                <img src="<?= $_CONFIG["logo_white"] ?>">
+                <img src="<?= $getsettingsdb["logo_white"] ?>">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -61,12 +63,12 @@ session_destroy();
         </div>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="<?= $_CONFIG["website"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["website"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Website</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link">
+            <a href="<?= $getsettingsdb["statuspage"] ?>" class="nav-link">
               <span class="nav-link-inner--text">Status page</span>
             </a>
           </li>
@@ -74,7 +76,7 @@ session_destroy();
         <hr class="d-lg-none" />
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
           <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="<?= $_CONFIG["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
+            <a class="nav-link nav-link-icon" href="<?= $getsettingsdb["discordserver"] ?>" target="_blank" data-toggle="tooltip" data-original-title="Like us on Facebook">
               <i class="fab fa-discord"></i>
               <span class="nav-link-inner--text d-lg-none">Discord server</span>
             </a>
@@ -119,7 +121,7 @@ session_destroy();
               </div>
               <form role="form">
                 <div class="text-center">
-                  <a href="<?= $_CONFIG["discordserver"] ?>" target="_blank"><button type="button" class="btn btn-primary mt-2">Join it!</button></a>
+                  <a href="<?= $getsettingsdb["discordserver"] ?>" target="_blank"><button type="button" class="btn btn-primary mt-2">Join it!</button></a>
                   <a href="/auth/logout"><button type="button" class="btn btn-danger mt-2">Logout</button></a>
                 </div>
               </form>

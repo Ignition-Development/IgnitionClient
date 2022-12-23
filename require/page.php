@@ -15,6 +15,7 @@ if (isset($_ADDONS)) {
     }
 }
 $userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_real_escape_string($cpconn, $_SESSION["user"]->id) . "'")->fetch_array();
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 ?>
 <!--
 =========================================================
@@ -33,9 +34,9 @@ $userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_rea
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title><?= $_CONFIG["name"] ?></title>
+  <title><?= $getsettingsdb["name"] ?></title>
   <!-- Favicon -->
-  <link rel="icon" href="<?= $_CONFIG["favicon"] ?>" type="image/png">
+  <link rel="icon" href="<?= $getsettingsdb["favicon"] ?>" type="image/png">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
@@ -53,7 +54,7 @@ $userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_rea
       <!-- Brand -->
       <div class="sidenav-header  d-flex  align-items-center">
         <a class="navbar-brand" href="/">
-          <img src="<?= $_CONFIG["logo_black"] ?>" class="navbar-brand-img" alt="...">
+          <img src="<?= $getsettingsdb["logo_black"] ?>" class="navbar-brand-img" alt="...">
         </a>
         <div class=" ml-auto ">
           <!-- Sidenav toggler -->
@@ -95,19 +96,19 @@ $userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_rea
           <ul class="navbar-nav mb-md-3">
             <li class="nav-item">
 
-              <a class="nav-link" href="<?= $_CONFIG["ptero_url"] ?>" target="_blank">
+              <a class="nav-link" href="<?= $getsettingsdb["ptero_url"] ?>" target="_blank">
                 <i class="fas fa-gamepad"></i>
                 <span class="nav-link-text">Game panel</span>
               </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= $_CONFIG["website"] ?>" target="_blank">
+                <a class="nav-link" href="<?= $getsettingsdb["website"] ?>" target="_blank">
                     <i class="fas fa-home"></i>
                     <span class="nav-link-text">Website</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= $_CONFIG["statuspage"] ?>" target="_blank">
+                <a class="nav-link" href="<?= $getsettingsdb["statuspage"] ?>" target="_blank">
                     <i class="fas fa-signal"></i>
                     <span class="nav-link-text">Status page</span>
                 </a>
@@ -162,19 +163,19 @@ $userdb = $cpconn->query("SELECT * FROM users WHERE discord_id = '" . mysqli_rea
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
                 <div class="row shortcuts px-4">
-                  <a href="<?= $_CONFIG["ptero_url"] ?>" class="col-4 shortcut-item">
+                  <a href="<?= $getsettingsdb["ptero_url"] ?>" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-red">
                       <i class="fas fa-gamepad"></i>
                     </span>
                     <small>Game panel</small>
                   </a>
-                  <a href="<?= $_CONFIG["website"] ?>" class="col-4 shortcut-item">
+                  <a href="<?= $getsettingsdb["website"] ?>" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-orange">
                       <i class="fas fa-home"></i>
                     </span>
                     <small>Website</small>
                   </a>
-                  <a href="<?= $_CONFIG["statuspage"] ?>" class="col-4 shortcut-item">
+                  <a href="<?= $getsettingsdb["statuspage"] ?>" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-info">
                       <i class="fas fa-signal"></i>
                     </span>

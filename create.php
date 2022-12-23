@@ -126,7 +126,7 @@ $isDonator = $cpconn->query("SELECT * FROM private_node WHERE uid = '$userdb->di
                             <input type="number" id="databases" name="databases" class="form-control databases" value="0" required>
                         </div>
                         </p>
-                        <p><small>By proceeding to the next step, you agree to our <a href="<?= $_CONFIG["termsofservice"] ?>" target="_blank">terms and conditions</a>, and our <a href="<?= $_CONFIG["privacypolicy"] ?>">privacy policy</a>.</small></p>
+                        <p><small>By proceeding to the next step, you agree to our <a href="<?= $getsettingsdb["termsofservice"] ?>" target="_blank">terms and conditions</a>, and our <a href="<?= $getsettingsdb["privacypolicy"] ?>">privacy policy</a>.</small></p>
                         <button class="btn btn-primary" id="step1btn" onClick="nextStep();">Next »</button>
                     </div>
                 </div>
@@ -256,32 +256,7 @@ $isDonator = $cpconn->query("SELECT * FROM private_node WHERE uid = '$userdb->di
             <br><br>
             
         </div>
-            <!-- Footer -->
-            <footer class="footer pt-0">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6">
-                        <div class="copyright text-center  text-lg-left  text-muted">
-                            &copy; 2021 <a href="https://xshadow.me" class="font-weight-bold ml-1" target="_blank">X_Shadow_#5962</a> - Theme by <a href="https://creativetim.com" target="_blank">Creative Tim</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                            <li class="nav-item">
-                                <a href="<?= $_CONFIG["website"] ?>" class="nav-link" target="_blank"> Website</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= $_CONFIG["statuspage"] ?>" class="nav-link" target="_blank">Uptime / Status</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= $_CONFIG["privacypolicy"] ?>" class="nav-link" target="_blank">Privacy policy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= $_CONFIG["termsofservice"] ?>" class="nav-link" target="_blank">Terms of service</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
+            
         </div>
     </div>
 

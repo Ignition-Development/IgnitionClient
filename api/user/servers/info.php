@@ -2,14 +2,15 @@
 require("../../../require/config.php");
 require("../../../require/sql.php");
 require("../../../require/addons.php");
+$getsettingsdb = $cpconn->query("SELECT * FROM settings")->fetch_array();
 session_start();
 header("Content-type: application/json"); // better readability
 
 // GET PTERO SERVER INFO
-$ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $ptid);
+$ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $ptid);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+    "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
     "Content-Type: application/json",
     "Accept: Application/vnd.pterodactyl.v1+json"
 ));
@@ -23,10 +24,10 @@ $result = json_decode($result1, true);
 
 $result = $cpconn->query("SELECT * FROM servers WHERE id = '" . mysqli_real_escape_string($cpconn, $_GET['id']) . "'")->fetch_object();
 
-$ch = curl_init($_CONFIG["ptero_url"] . "/api/application/servers/" . $result->pid);
+$ch = curl_init($getsettingsdb["ptero_url"] . "/api/application/servers/" . $result->pid);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    "Authorization: Bearer " . $_CONFIG["ptero_apikey"],
+    "Authorization: Bearer " . $getsettingsdb["ptero_apikey"],
     "Content-Type: application/json",
     "Accept: Application/vnd.pterodactyl.v1+json"
 ));
